@@ -17,8 +17,19 @@ print("Initial duty cycle:", pwm.duty())
 # Set duty cycle
 pwm.duty(1023)
 
-for i in range(0, 1023):
-    print(i)
-    pwm.duty(i)
-    time.sleep_ms(1)
+pwm.deinit()
+
+def pulse():
+    d = 0.0010
     
+    for i in range(1024, 0, -1):
+        pwm.duty(i)
+        time.sleep(d)
+    
+    for i in range(0, 1024):
+        pwm.duty(i)
+        time.sleep(d)
+    
+for i in range(1, 5):
+    pulse()
+
