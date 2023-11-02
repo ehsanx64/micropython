@@ -1,22 +1,23 @@
 import time
 from umqtt.simple import MQTTClient
+import mqtt.config as conf
 
-mqserver="127.0.0.1"
-mqport="1883"
-username="user"
-password="pass"
-topic=b"mqttpy/simple"
 
 # Received messages from subscriptions will be delivered to this callback
 def sub_cb(topic, msg):
     print((topic, msg))
 
-def main(server=mqserver):
+# Connect to a broker and subscribe for messages on the configured topic
+def main(server=conf.server):
     print("Connecting to broker ...")
-    c = MQTTClient("umqtt_client", server, mqport, username, password)
+    print("MQTT Server: " + conf.server)
+    print("Subscribing to: " + str(conf.topic))
+
+    c = MQTTClient(conf.client_id, server, conf.port, conf.username, conf.password)
     c.set_callback(sub_cb)
     c.connect()
-    c.subscribe(topic)
+    c.subscribe(conf.topic)
+
     while True:
         if True:
             # Blocking wait for message
